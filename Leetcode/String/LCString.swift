@@ -63,7 +63,7 @@ class LCString {
         var ch = Array(s)
         for i in stride(from: 0, to: s.count, by: 2 * k) {
             var left = i
-            var right = min(s.count - 1, left + k + 1)
+            var right = min(s.count - 1, left + k - 1)
             while left < right {
                 ch.swapAt(left, right)
 //                (ch[left], ch[right]) = (ch[right], ch[left])
@@ -190,5 +190,48 @@ class LCString {
         }
         
         return res.joined()
+    }
+    
+    class func reverseWords2(_ s: String) -> String {
+        var words = s.split(separator: " ").filter { $0 != "" }
+        return words.reversed().joined(separator: " ")
+    }
+    
+    /*
+     01.06字符串压缩
+     https://leetcode.cn/problems/compress-string-lcci/
+     字符串压缩。利用字符重复出现的次数，编写一种方法，实现基本的字符串压缩功能。比如，字符串aabcccccaaa会变为a2b1c5a3。若“压缩”后的字符串没有变短，则返回原先的字符串。你可以假设字符串中只包含大小写英文字母（a至z）。
+
+     示例1:
+
+      输入："aabcccccaaa"
+      输出："a2b1c5a3"
+     示例2:
+
+      输入："abbccd"
+      输出："abbccd"
+      解释："abbccd"压缩后为"a1b2c2d1"，比原字符串长度更长。
+     */
+    class func compressString(_ str: String) -> String {
+        guard str.count > 0 else { return str }
+        var chars: [String] = []
+        for index in str.indices {
+            chars.append("\(str[index])")
+        }
+        var result = chars.first!
+        var startIndex = 0
+        var count = 1
+        for endIndex in 1..<chars.count {
+            if chars[startIndex] == chars[endIndex] {
+                count += 1
+            } else {
+                result.append("\(count)" + chars[endIndex])
+                startIndex = endIndex
+                count = 1
+            }
+        }
+        result.append("\(count)")
+//        print(result)
+        return result.count >= str.count ? str : result
     }
 }

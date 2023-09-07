@@ -18,7 +18,4 @@ class LCSorted: NSObject {
         return b
       }
     }
-    
-    /** 选择排序 */
-//    class func
 }

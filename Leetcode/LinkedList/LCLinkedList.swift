@@ -350,6 +350,45 @@ class LCLinkedList: NSObject {
     }
     
     /*
+     // 面试题 02.07. 链表相交
+     时间复杂度：O(m+n)，其中 m 和 n 是分别是链表 headA 和 headB 的长度。需要遍历两个链表各一次。
+
+     空间复杂度：O(m)，其中 m 是链表 headA 的长度。需要使用哈希集合存储链表 headA 中的全部节点。
+     */
+    class func getIntersectionNode1(_ headA: ListNode, _ headB: ListNode) -> ListNode? {
+        var set: Set<ListNode> = []
+        var cur: ListNode? = headA
+        while cur != nil {
+            set.insert(cur!)
+            cur = cur?.next
+        }
+        cur = headB
+        while cur != nil {
+            if set.contains(cur!) {
+                return cur
+            }
+            cur = cur?.next
+        }
+        return nil
+    }
+    
+    /*
+     复杂度分析
+
+     时间复杂度：O(m+n)，其中 m 和 n 是分别是链表 headA 和 headB 的长度。两个指针同时遍历两个链表，每个指针遍历两个链表各一次。
+     空间复杂度：O(1)
+     */
+    class func getIntersection2(_ headA: ListNode, _ headB: ListNode) -> ListNode? {
+        var curA: ListNode? = headA
+        var curB: ListNode? = headB
+        while curA != curB {
+            curA = curA == nil ? headB : curA?.next
+            curB = curB == nil ? headA : curB?.next
+        }
+        return curA
+    }
+    
+    /*
      142.环形链表II
      https://leetcode.cn/problems/linked-list-cycle-ii/
      
